@@ -2,6 +2,7 @@ const router = require("express").Router();
 const User = require("../schema/userSchema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const BlogRouter = require("../schema/blogSchema");
 //Register
 router.post("/register", async (req, res) => {
   try {
@@ -70,9 +71,13 @@ router.get("/getAll", validUser, async (req, res) => {
 
 //get user details
 router.get("/userDetails", async (req, res) => {
-const user = req.query.id;
-  var findData = await User.findOne({ user });
-  res.json(findData);
+  const user = req.query.id;
+  var findBlog = await BlogRouter.find({ user }).populate([{ path: "user" }]);
+  var findData = await User.findOne({ _id:user });
+  res.json({
+    userDetails: findData,
+    userPosts:findBlog
+  });
 });
 //update uer details
 router.put("/update", async (req, res) => {

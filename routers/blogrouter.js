@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const BlogRouter = require("../schema/blogSchema");
+const CommentRouter = require("../schema/commentsSchema");
 //create
 router.post("/create", async (req, res) => {
   var data = new BlogRouter({
@@ -28,8 +29,13 @@ router.get("/get", async (req, res) => {
 //getpost
 router.get("/getpost", async (req, res) => {
   const postId = req.query.id;
-  var findData = await BlogRouter.findOne({id:postId}).populate([{ path: "user" ,select:['name','avatar']}])
-  res.json(findData);
+  console.log(postId)
+  var findData = await BlogRouter.findOne({ _id: postId }).populate([{ path: "user", select: ['name', 'avatar'] }])
+  var findComment = await CommentRouter.find({ post: postId }).populate([{ path: "user", select: ['name', 'avatar'] }])
+  res.json({
+    data: findData,
+    comment:findComment
+  });
 });
 //getAll
 router.get("/getall", async (req, res) => {

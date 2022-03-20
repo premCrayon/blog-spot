@@ -3,6 +3,8 @@ const app = express();
 const mongoose = require("mongoose");
 const userRouter = require("./routers/userrouter");
 const blogRouter = require("./routers/blogrouter");
+const commentRouter = require("./routers/commentsrouter");
+
 const morgan = require("morgan");
 
 const cors = require("cors");
@@ -12,9 +14,10 @@ app.use(morgan("dev"));
 app.use(cors());
 //register router
 app.use("/user", userRouter);
-// task router
+//blog
 app.use("/blog", blogRouter);
-
+//comment
+app.use("/comment", commentRouter);
 //home router
 app.use("/", (req, res) => {
   res.send("backend running");
