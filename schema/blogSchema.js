@@ -34,5 +34,10 @@ blogSchema.virtual("comments",{
   foreignField: "post",
 })
 
+blogSchema.virtual("like",{
+  ref:"like",
+  localField: "_id",
+  foreignField: "post",
+})
 
 module.exports = mongoose.model("blog", blogSchema);

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const BlogRouter = require("../schema/blogSchema");
 const CommentRouter = require("../schema/commentsSchema");
+const LikeRouter = require("../schema/likeSchema");
 //create
 router.post("/create", async (req, res) => {
   var data = new BlogRouter({
@@ -31,10 +32,13 @@ router.get("/getpost", async (req, res) => {
   const postId = req.query.id;
   console.log(postId)
   var findData = await BlogRouter.findOne({ _id: postId }).populate([{ path: "user", select: ['name', 'avatar'] }])
-  var findComment = await CommentRouter.find({ post: postId }).populate([{ path: "user", select: ['name', 'avatar'] }]).sort([['createTime','descending']])
+  var findComment = await CommentRouter.find({ post: postId }).populate([{ path: "user", select: ['name', 'avatar'] }]).sort([['createTime', 'descending']])
+  var findLike = await LikeRouter.find({ post: postId }).populate([{ path: "user" }])
+  console.log(findLike)
   res.json({
     data: findData,
-    comment:findComment
+    comment: findComment,
+    like:findLike
   });
 });
 //getAll
@@ -43,30 +47,12 @@ router.get("/getall", async (req, res) => {
   const skip = req.query.skip
   var findData = await BlogRouter.find()
   .populate([{ path: "user" }])
-  .populate([{path:"comments"}])
+  .populate([{ path: "comments" }])
+  .populate([{path:"like"}])
   .sort([['createTime','descending']])
   .skip(skip)
   .limit(limit)
-  .lean()
-
-  // const blogIds = findData.map(i=>i._id) 
-
-
-  // const blogComments = await CommentRouter.find({'post':{$in:blogIds}}).lean()
-
-
-  // console.log(blogComments.map(i=>i.post));
-
-  // let response = findData.map(item => {
-  
-  //   return {
-  //     ...item,
-  //     comments:blogComments.filter(i=> item._id === i.post)
-  //   }
-  // })
-  
-
-  
+  .lean()  
   res.json(findData);
 });
 //update

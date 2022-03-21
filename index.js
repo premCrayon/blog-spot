@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 const userRouter = require("./routers/userrouter");
 const blogRouter = require("./routers/blogrouter");
 const commentRouter = require("./routers/commentsrouter");
-
+const likeRouter = require("./routers/likerouter");
+const PORT = process.env.PORT || 5000
 const morgan = require("morgan");
 
 const cors = require("cors");
@@ -18,13 +19,15 @@ app.use("/user", userRouter);
 app.use("/blog", blogRouter);
 //comment
 app.use("/comment", commentRouter);
+//like
+app.use("/like", likeRouter);
 //home router
 app.use("/", (req, res) => {
   res.send("backend running");
 });
 //server create
-app.listen(5000, () => {
-  console.log("server start on 5000");
+app.listen(PORT, () => {
+  console.log(`server start on ${PORT}`);
 });
 //db connected
 mongoose.connect("mongodb+srv://prem:S6xj1hE733UzGlZH@cluster0.c1hmm.mongodb.net/blogSpot",
