@@ -31,7 +31,7 @@ router.get("/getpost", async (req, res) => {
   const postId = req.query.id;
   console.log(postId)
   var findData = await BlogRouter.findOne({ _id: postId }).populate([{ path: "user", select: ['name', 'avatar'] }])
-  var findComment = await CommentRouter.find({ post: postId }).populate([{ path: "user", select: ['name', 'avatar'] }])
+  var findComment = await CommentRouter.find({ post: postId }).populate([{ path: "user", select: ['name', 'avatar'] }]).sort([['createTime','descending']])
   res.json({
     data: findData,
     comment:findComment
@@ -41,7 +41,32 @@ router.get("/getpost", async (req, res) => {
 router.get("/getall", async (req, res) => {
   const limit = req.query.limit;
   const skip = req.query.skip
-  var findData = await BlogRouter.find().populate([{ path: "user" }]).sort([['createTime','descending']]).skip(skip).limit(limit)
+  var findData = await BlogRouter.find()
+  .populate([{ path: "user" }])
+  .populate([{path:"comments"}])
+  .sort([['createTime','descending']])
+  .skip(skip)
+  .limit(limit)
+  .lean()
+
+  // const blogIds = findData.map(i=>i._id) 
+
+
+  // const blogComments = await CommentRouter.find({'post':{$in:blogIds}}).lean()
+
+
+  // console.log(blogComments.map(i=>i.post));
+
+  // let response = findData.map(item => {
+  
+  //   return {
+  //     ...item,
+  //     comments:blogComments.filter(i=> item._id === i.post)
+  //   }
+  // })
+  
+
+  
   res.json(findData);
 });
 //update
