@@ -18,7 +18,10 @@ const likeSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "blog",
     required: true, 
-  }
+  },
+  is_active: {
+    type: Boolean,
+   }
 });
 likeSchema.virtual("User", {
   ref: "User",

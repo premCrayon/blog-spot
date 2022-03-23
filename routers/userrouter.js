@@ -41,7 +41,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json("Password not valid");
     }
     
-    var userToken = jwt.sign({ email: userData.email,id:userData._id }, "securedata");
+    var userToken = jwt.sign({ id:userData._id,avatar:userData.avatar }, "securedata");
 
     res.status(200).send({
       type: "success",
