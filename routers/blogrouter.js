@@ -3,6 +3,7 @@ const router = express.Router();
 const BlogRouter = require("../schema/blogSchema");
 const CommentRouter = require("../schema/commentsSchema");
 const LikeRouter = require("../schema/likeSchema");
+const SaveRouter = require("../schema/savedblogschema");
 //create
 router.post("/create", async (req, res) => {
   var data = new BlogRouter({
@@ -48,7 +49,8 @@ router.get("/getall", async (req, res) => {
   var findData = await BlogRouter.find()
   .populate([{ path: "user" }])
   .populate([{ path: "comments" }])
-  .populate([{path:"like"}])
+  .populate([{ path: "like" }])
+  .populate([{path:"save"}])
   .sort([['createTime','descending']])
   .skip(skip)
   .limit(limit)

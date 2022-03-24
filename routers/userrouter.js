@@ -3,6 +3,7 @@ const User = require("../schema/userSchema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const BlogRouter = require("../schema/blogSchema");
+const SavedRouter = require("../schema/savedblogschema");
 //Register
 router.post("/register", async (req, res) => {
   try {
@@ -73,17 +74,20 @@ router.get("/getAll", validUser, async (req, res) => {
 router.get("/userDetails", async (req, res) => {
   const user = req.query.id;
   var findBlog = await BlogRouter.find({ user }).populate([{ path: "user" }]);
-  var findData = await User.findOne({ _id:user });
+  var findData = await User.findOne({ _id: user });
+  var findsaved = await SavedRouter.find({user }).populate([{ path: "post" }]);
+  console.log(findsaved)
   res.json({
     userDetails: findData,
-    userPosts:findBlog
+    userPosts: findBlog,
+    saved:findsaved
   });
 });
 //update uer details
 router.put("/update", async (req, res) => {
   // console.log(req);
   var user = await User.findById(req.body.id);
-  console.log(user);
+  
   if (!user) {
     res.json({ message: "No task Found with given id" });
   }

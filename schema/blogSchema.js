@@ -39,5 +39,10 @@ blogSchema.virtual("like",{
   localField: "_id",
   foreignField: "post",
 })
+blogSchema.virtual("save",{
+  ref:"save",
+  localField: "_id",
+  foreignField: "post",
+})
 
 module.exports = mongoose.model("blog", blogSchema);

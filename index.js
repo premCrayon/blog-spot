@@ -5,6 +5,7 @@ const userRouter = require("./routers/userrouter");
 const blogRouter = require("./routers/blogrouter");
 const commentRouter = require("./routers/commentsrouter");
 const likeRouter = require("./routers/likerouter");
+const savedRouter = require("./routers/saveblogrouter");
 const PORT = process.env.PORT || 5000
 const morgan = require("morgan");
 
@@ -21,6 +22,8 @@ app.use("/blog", blogRouter);
 app.use("/comment", commentRouter);
 //like
 app.use("/like", likeRouter);
+//save
+app.use("/save", savedRouter);
 //home router
 app.use("/", (req, res) => {
   res.send("backend running");
