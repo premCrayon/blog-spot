@@ -16,8 +16,6 @@ router.post("/create", async (req, res) => {
 
   if(!response){
     return res.json({type:"failed",statuscode:500,message:"Post Creation Failed"})
-
-
   }
 
    return res.json({type:"success",statuscode:201,message:"Post Creation Successfully"})
@@ -50,7 +48,7 @@ router.get("/getall", async (req, res) => {
   .populate([{ path: "user" }])
   .populate([{ path: "comments" }])
   .populate([{ path: "like" }])
-  .populate([{path:"save"}])
+  .populate([{path:"saves"}])
   .sort([['createTime','descending']])
   .skip(skip)
   .limit(limit)

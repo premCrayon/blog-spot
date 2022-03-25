@@ -30,4 +30,4 @@ savedSchema.virtual("blog", {
   foreignField: "_id",
 });
 
-module.exports = mongoose.model("save", savedSchema);
+module.exports = mongoose.model("saves", savedSchema);

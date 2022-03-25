@@ -39,8 +39,8 @@ blogSchema.virtual("like",{
   localField: "_id",
   foreignField: "post",
 })
-blogSchema.virtual("save",{
-  ref:"save",
+blogSchema.virtual("saves",{
+  ref:"saves",
   localField: "_id",
   foreignField: "post",
 })
