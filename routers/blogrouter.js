@@ -11,6 +11,7 @@ router.post("/create", async (req, res) => {
     discription: req.body.discription,
     post: req.body.post,
     user: req.body.userId,
+    postdemo:req.body.posts
   });
   let response = await data.save();
 
