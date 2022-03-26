@@ -33,30 +33,27 @@ app.get("/", (req, res) => {
   res.send("backend running");
 });
 
-//server create
-const server = app.listen(PORT, () => {
-  console.log(`server start on ${PORT}`);
-});
+//server createrocess.env.
+const server = app.listen(PORT, () =>
+  console.log(`Server started on ${PORT}`)
+);
 const io = socket(server, {
   cors: {
     origin: "http://localhost:3000",
-    credentials: true
-  }
-})
-global.onlineUsers = new Map()
-io.on("connection", (socket) => {
-  global.chatSocket = socket;
-  socket.on("add-user", (userId) => {
-    onlineUsers.set(userId, socket.id)
-  })
-  socket.on("send-msg", (data) => {
-    const sendUserSocket = onlineUsers.get(data.to);
-    if (sendUserSocket) {
-      socket.to(sendUserSocket).emit("msg-recive", data.msg)
-    }
-  })
-})
+    credentials: true,
+  },
+});
 
+io.on("connection", (socket) => {
+  console.log("socket connected")
+  socket.on("send-msg", (data) => {
+    console.log(data)
+    io.emit("msg-recieve", data);
+  });
+  socket.on('disconnect', () => {
+    console.log('socket disconnected')
+  });
+});
 //db connected
 mongoose.connect("mongodb+srv://prem:S6xj1hE733UzGlZH@cluster0.c1hmm.mongodb.net/blogSpot",
   { useNewUrlParser: true, useUnifiedTopology: true },
