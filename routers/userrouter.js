@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const BlogRouter = require("../schema/blogSchema");
 const SavedRouter = require("../schema/savedblogschema");
+
 //Register
 router.post("/register", async (req, res) => {
   try {
@@ -42,7 +43,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json("Password not valid");
     }
     
-    var userToken = jwt.sign({ id:userData._id,avatar:userData.avatar }, "securedata");
+    var userToken = jwt.sign({ id:userData._id,avatar:userData.avatar,name:userData.name }, "securedata");
 
     res.status(200).send({
       type: "success",
@@ -59,15 +60,25 @@ const validUser = (req, res, next) => {
   req.token = token;
   next();
 };
-router.get("/getAll", validUser, async (req, res) => {
-  jwt.verify(req.token, "securedata", async (err, data) => {
+router.get("/getAll/:token", validUser, async (req, res) => {
+  const userToken = req.params.token;
+  console.log(userToken)
+   jwt.verify(userToken, "securedata", async (err, data) => {
     if (err) {
       res.sendStatus(403);
     } else {
-      const data = await User.find();
-      res.json(data);
+      //const data = await User.find().select(['name','email','_id','avatar'])
+      const deconded = jwt.decode(userToken)
+  try {
+    const users=await User.find({_id:{$ne:deconded.id}}).select(['name','email','_id','avatar'])
+   res.json(users);
+  } catch (err) {
+    console.log(err)
+  }
+     
     }
-  });
+   });
+  
 });
 
 //get user details
@@ -82,6 +93,12 @@ router.get("/userDetails", async (req, res) => {
     userPosts: findBlog,
     saved:findsaved
   });
+});
+//get user while chat
+router.get("/userchat", async (req, res) => {
+  const user = req.query.id;
+  var findData = await User.findOne({ _id: user }).select(['name','email','_id','avatar'])
+  res.json(findData);
 });
 //update uer details
 router.put("/update", async (req, res) => {
