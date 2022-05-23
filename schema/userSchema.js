@@ -24,6 +24,12 @@ const UserSchema = mongoose.Schema({
     },
     phone: {
         type: String
+    },
+    bio: {
+        type: String
+    },
+    deviceToken: {
+        type: String
     }
 
 })

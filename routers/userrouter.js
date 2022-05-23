@@ -98,7 +98,7 @@ router.get("/userDetails", async (req, res) => {
 //get user while chat
 router.get("/userchat", async (req, res) => {
   const user = req.query.id;
-  var findData = await User.findOne({ _id: user }).select(['name', 'email', '_id', 'avatar'])
+  var findData = await User.findOne({ _id: user }).select(['name', 'email', '_id', 'avatar', 'deviceToken'])
   res.json(findData);
 });
 //update uer details
@@ -114,6 +114,22 @@ router.put("/update", async (req, res) => {
     {
       name: req.body.name,
       avatar: req.body.avatar,
+      phone: req.body.phone,
+      bio: req.body.bio
+    }
+  );
+  res.json(update);
+});
+//update user device token
+router.put("/updateDeviceToken", async (req, res) => {
+  var user = await User.findById(req.body.id);
+  if (!user) {
+    res.json({ message: "No task Found with given id" });
+  }
+  var update = await User.findByIdAndUpdate(
+    { _id: user._id },
+    {
+      deviceToken: req.body.device_token
     }
   );
   res.json(update);
