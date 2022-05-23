@@ -41,7 +41,7 @@ const server = app.listen(PORT, () =>
 //http://localhost:3000
 const io = socket(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://blog-spots.netlify.app",
     credentials: true,
   },
 });
