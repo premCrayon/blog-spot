@@ -28,7 +28,8 @@ router.post("/get", async (req, res) => {
         return {
             fromSelf: msg.senders.toString() === from,
             message: msg.message,
-            createddat: msg.createTime
+            createddat: msg.createTime,
+            id: msg._id
         }
     })
     res.json(projectedMessages);

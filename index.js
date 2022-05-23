@@ -37,9 +37,11 @@ app.get("/", (req, res) => {
 const server = app.listen(PORT, () =>
   console.log(`Server started on ${PORT}`)
 );
+//https://blog-spots.netlify.app
+//http://localhost:3000
 const io = socket(server, {
   cors: {
-    origin: "https://blog-spots.netlify.app",
+    origin: "http://localhost:3000",
     credentials: true,
   },
 });

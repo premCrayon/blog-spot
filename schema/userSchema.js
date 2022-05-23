@@ -5,7 +5,7 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true,
         lowercase: true,
-        unique:true
+        unique: true
     },
     username: {
         type: String,
@@ -25,5 +25,11 @@ const UserSchema = mongoose.Schema({
     phone: {
         type: String
     }
+
 })
+UserSchema.virtual("message", {
+    ref: "message",
+    localField: "_id",
+    foreignField: "senders",
+});
 module.exports = mongoose.model("User", UserSchema)
