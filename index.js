@@ -16,7 +16,7 @@ const socket = require("socket.io");
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());
-//register routers
+//register router
 app.use("/user", userRouter);
 //blog
 app.use("/blog", blogRouter);
