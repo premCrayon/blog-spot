@@ -68,10 +68,12 @@ router.get("/getAll/:token", validUser, async (req, res) => {
     if (err) {
       res.sendStatus(403);
     } else {
-      //const data = await User.find().select(['name','email','_id','avatar'])
       const deconded = jwt.decode(userToken)
       try {
-        const users = await User.find({ _id: { $ne: deconded.id } }).select(['name', 'email', '_id', 'avatar']).populate([{ path: "message" }])
+        //const data = await MessageRouter.find().populate([{ path: "recevier" }])
+        const users = await User.find({ _id: { $ne: deconded.id } })
+          .select(['name', 'email', '_id', 'avatar'])
+
         res.json(users);
       } catch (err) {
         console.log(err)

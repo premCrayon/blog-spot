@@ -30,12 +30,8 @@ const UserSchema = mongoose.Schema({
     },
     deviceToken: {
         type: String
-    }
+    },
 
 })
-UserSchema.virtual("message", {
-    ref: "message",
-    localField: "_id",
-    foreignField: "senders",
-});
+
 module.exports = mongoose.model("User", UserSchema)

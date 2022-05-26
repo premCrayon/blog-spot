@@ -14,14 +14,14 @@ const likeSchema = mongoose.Schema({
     ref: "User",
     required: true,
   },
-   post: {
+  post: {
     type: mongoose.Schema.ObjectId,
     ref: "blog",
-    required: true, 
+    required: true,
   },
   is_active: {
     type: Boolean,
-   }
+  }
 });
 likeSchema.virtual("User", {
   ref: "User",

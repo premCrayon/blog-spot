@@ -41,7 +41,7 @@ const server = app.listen(PORT, () =>
 //http://localhost:3000
 const io = socket(server, {
   cors: {
-    origin: "https://blog-spots.netlify.app",
+    origin: "https://blogs-spot.herokuapp.com",
     credentials: true,
   },
 });
